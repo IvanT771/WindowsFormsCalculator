@@ -18,16 +18,30 @@ namespace WindowsFormsApp2
 
         private string currentOperation = "";      
 
-        private void SetNum(string txt) //Установка значения для текущего числа
+        private void AddNum(string txt) //Установка значения для текущего числа
         {
             if (isOperation)
             {
                 num2 += txt;
-                textBoxResult.Text = num2;
+                textBoxResult.Text=num2;
             }
             else
             {
                 num1 += txt;
+                textBoxResult.Text = num1;
+            }
+        }
+
+        private void SetNum(string txt)
+        {
+            if (isOperation)
+            {
+                num2 = txt;
+                textBoxResult.Text = num2;
+            }
+            else
+            {
+                num1 = txt;
                 textBoxResult.Text = num1;
             }
         }
@@ -38,7 +52,7 @@ namespace WindowsFormsApp2
             if (isPoint && txt == ",") { return; }
             if(txt == ",") { isPoint = true; }
 
-            textBoxResult.Text+=txt;  
+            AddNum(txt);
         }
     
         private void OutputResult(string result, bool isSingle, string operation)
@@ -49,7 +63,7 @@ namespace WindowsFormsApp2
             {
                 textBoxHistory.Text = num1 + " " + operation + " " + num2+" = ";
                 num1 = result; //Записываем в первое число полученный результат
-                num2 = null; //Онулируем второе число
+                num2 = null; //Aнулируем второе число
             }
             else 
             {
@@ -59,14 +73,36 @@ namespace WindowsFormsApp2
                 num2 = null;
             }
             textBoxResult.Text = result; //Выводим результат               
-        }    
+        } 
+        
+        private void SetResult(string operation)
+        {
+            string result = null;
+
+
+            switch (operation)
+            {
+                case "+": { result = MathOperation.Add(num1, num2); break; }
+                case "-": { result = MathOperation.Sub(num1, num2); break; }
+                case "x": { result = MathOperation.Mul(num1, num2); break; }
+                case "÷": { result = MathOperation.Dev(num1, num2); break; }
+                case "√": { result = MathOperation.Sqr(num1); isOperation = false; break; }
+                case "x²": { result = MathOperation.Pow(num1); isOperation = false; break; }
+                case "1/x": { result = MathOperation.OneDev(num1); isOperation = false; break; }
+                default: break;
+            }
+            num1 = result;
+            num2 = null;
+            if(result != null)
+            textBoxResult.Text = result;
+        }
         private void ChoiceOperation(string operation)
         {
             string result = null;
             bool isSingleOperation = false; //Работаем с одним числом или двумя
-            
-            SetNum(textBoxResult.Text);
-            if(num1 == null) { num1 = textBoxResult.Text;}
+
+
+            if (num1 == null) { num1 = textBoxResult.Text;}
             textBoxHistory.Text=num1+" "+operation+" ";
             
             switch (operation)
@@ -85,6 +121,10 @@ namespace WindowsFormsApp2
         }
         private void buttonOperationClick(object obj, EventArgs e)
         {
+            if(currentOperation != null)
+            {
+                SetResult(currentOperation);
+            }
             isOperation = true;
             currentOperation = ((Button)obj).Text;
             ChoiceOperation(((Button)obj).Text);
@@ -94,12 +134,13 @@ namespace WindowsFormsApp2
         private void button3_Click(object sender, EventArgs e)
         {
             ChoiceOperation(currentOperation);
+            currentOperation = null;
         }
 
         //button clear
         private void button22_Click(object sender, EventArgs e)
         {
-            textBoxResult.Text = "0";
+            textBoxResult.Text = "";
             textBoxHistory.Text = "";
             isOperation = false;
             num1 = null;
