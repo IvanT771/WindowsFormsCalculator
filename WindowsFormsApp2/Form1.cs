@@ -18,22 +18,27 @@ namespace WindowsFormsApp2
 
         private string currentOperation = "";      
 
+        private void SetNum(string txt) //Установка значения для текущего числа
+        {
+            if (isOperation)
+            {
+                num2 += txt;
+                textBoxResult.Text = num2;
+            }
+            else
+            {
+                num1 += txt;
+                textBoxResult.Text = num1;
+            }
+        }
         private void buttonNumberClick(object obj, EventArgs e)
         {
             var txt = ((Button)obj).Text;
+
             if (isPoint && txt == ",") { return; }
-
-            if (isOperation) { 
-                num2+= txt;
-                textBoxResult.Text = num2;
-            } 
-            else {
-                num1 += txt;
-                textBoxResult.Text=num1; 
-            }
-
             if(txt == ",") { isPoint = true; }
-           
+
+            textBoxResult.Text+=txt;  
         }
     
         private void OutputResult(string result, bool isSingle, string operation)
@@ -60,6 +65,7 @@ namespace WindowsFormsApp2
             string result = null;
             bool isSingleOperation = false; //Работаем с одним числом или двумя
             
+            SetNum(textBoxResult.Text);
             if(num1 == null) { num1 = textBoxResult.Text;}
             textBoxHistory.Text=num1+" "+operation+" ";
             
@@ -99,6 +105,14 @@ namespace WindowsFormsApp2
             num1 = null;
             num2 = null;
             isPoint = false;
+        }
+
+        //Button "<--"
+        private void button23_Click(object sender, EventArgs e)
+        {
+            if(textBoxResult.Text.Length <= 0) { return;}
+            textBoxResult.Text = textBoxResult.Text.Substring(0, textBoxResult.Text.Length-1);
+            SetNum(textBoxResult.Text);
         }
     }
 }
