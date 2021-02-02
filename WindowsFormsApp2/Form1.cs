@@ -11,7 +11,7 @@ namespace WindowsFormsApp2
         }
 
         private bool isPoint = false;
-        public bool isNum2 = false;
+        private bool isNum2 = false;
 
         private string num1 = null;
         private string num2 = null;
@@ -45,31 +45,57 @@ namespace WindowsFormsApp2
                 textBoxResult.Text = num1;
             }
         }
+
+
+
         private void buttonNumberClick(object obj, EventArgs e)
         {
             var txt = ((Button)obj).Text;
 
-            if (isPoint && txt == ",") { return; }
-            if(txt == ",") { isPoint = true; }
+            { 
+                if (isPoint && txt == ",") { return; }
+                if(txt == ",") { isPoint = true; }
+            }
+
+           
+            if(txt == "+/-" )
+            {
+                if(textBoxResult.Text.Length > 0)
+                if(textBoxResult.Text[0] == '-') 
+                { 
+                   textBoxResult.Text = textBoxResult.Text.Substring(1, textBoxResult.Text.Length-1);
+                }else
+                {
+                   textBoxResult.Text ="-" +textBoxResult.Text;
+                } 
+                SetNum(textBoxResult.Text);
+                return;
+            }
 
             AddNum(txt);
+
         }
     
         private void OutputResult(string result, string operation)
         {
-            if(result == null) { return;}
 
                 switch (operation)
                 {
-                    case "√": { textBoxHistory.Text = "√" + num1 + " = "; break; }
-                    case "x²": { textBoxHistory.Text = num1+ "²" + " = "; break; }
-                    case "1/x": { textBoxHistory.Text = "1/" + num1 + " = "; break; }
-                default: { textBoxHistory.Text = num1 + " " + operation + " " + num2 + " = "; break;}
+                    case "√": { if(num1!=null)textBoxHistory.Text = "√" + num1 + " = "; break; }
+                    case "x²": { if (num1 != null) textBoxHistory.Text = num1+ "²" + " = "; break; }
+                    case "1/x": { if (num1 != null) textBoxHistory.Text = "1/" + num1 + " = "; break; }
+                    default:  { 
+                        if(num2 != null)
+                        textBoxHistory.Text = num1 + " " + operation + " " + num2 + " = ";
+                        else
+                            if(num1 != null)
+                        textBoxHistory.Text = num1 + " " + operation + " ";
+                        break; }
                 }
                 
                 num2 = null;
-           
-                textBoxResult.Text = result; //Выводим результат               
+            if (result != null) { 
+                textBoxResult.Text = result; } //Выводим результат               
         } 
         
         private void SetResult(string operation)
@@ -82,17 +108,16 @@ namespace WindowsFormsApp2
                 case "-": { result = MathOperation.Sub(num1, num2); break; }
                 case "x": { result = MathOperation.Mul(num1, num2); break; }
                 case "÷": { result = MathOperation.Dev(num1, num2); break; }
-                case "√": { result = MathOperation.Sqr(num1);  break; }
-                case "x²": { result = MathOperation.Pow(num1); break; }
-                case "1/x": { result = MathOperation.OneDev(num1); break; }
+                case "√": { result = MathOperation.Sqr(num1); isNum2 = false; break; }
+                case "x²": { result = MathOperation.Pow(num1); isNum2 = false; break; }
+                case "1/x": { result = MathOperation.OneDev(num1); isNum2 = false; break; }
                 default: break;
             }
 
-            if(result != null) 
-            { 
             OutputResult(result, operation);
-            num1 = result; 
-            }
+
+            if (isNum2 ){ if(result != null) num1 = result; } else { num1 = null;}
+            
         }
         private void ChoiceOperation(string operation)
         {
@@ -101,7 +126,7 @@ namespace WindowsFormsApp2
         }
         private void buttonOperationClick(object obj, EventArgs e)
         {
-            if(num1 == null) { return;}
+            if(num1 == null) {if(textBoxResult.Text.Length>0) num1 = textBoxResult.Text; else return;}
 
             isNum2 = true;
             currentOperation = ((Button)obj).Text;
@@ -113,6 +138,9 @@ namespace WindowsFormsApp2
         private void button3_Click(object sender, EventArgs e)
         {
             ChoiceOperation(currentOperation);
+            isNum2 = false;
+            num1 = null;
+            num2 = null;
         }
 
         //button clear

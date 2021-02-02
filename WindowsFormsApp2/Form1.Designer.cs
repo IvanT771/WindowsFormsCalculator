@@ -80,6 +80,7 @@ namespace WindowsFormsApp2
             this.Num1.TabIndex = 1;
             this.Num1.Text = "+/-";
             this.Num1.UseVisualStyleBackColor = true;
+            this.Num1.Click += new System.EventHandler(this.buttonNumberClick);
             // 
             // button1
             // 
@@ -338,14 +339,12 @@ namespace WindowsFormsApp2
             // textBoxResult
             // 
             this.textBoxResult.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.textBoxResult.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.textBoxResult.Dock = System.Windows.Forms.DockStyle.Top;
             this.textBoxResult.Font = new System.Drawing.Font("Consolas", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.textBoxResult.Location = new System.Drawing.Point(0, 29);
-            this.textBoxResult.Multiline = true;
             this.textBoxResult.Name = "textBoxResult";
             this.textBoxResult.ReadOnly = true;
-            this.textBoxResult.Size = new System.Drawing.Size(248, 54);
+            this.textBoxResult.Size = new System.Drawing.Size(248, 36);
             this.textBoxResult.TabIndex = 25;
             this.textBoxResult.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
