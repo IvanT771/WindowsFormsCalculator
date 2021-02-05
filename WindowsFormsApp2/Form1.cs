@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using System.Windows.Forms;
 
 namespace WindowsFormsApp2
@@ -117,13 +118,9 @@ namespace WindowsFormsApp2
             OutputResult(result, operation);
 
             if (isNum2 ){ if(result != null) num1 = result; } else { num1 = null;}
-            
-        }
-        private void ChoiceOperation(string operation)
-        {
-            SetResult(operation);
             isPoint = false; //Разрешаем ставить запятую
         }
+       
         private void buttonOperationClick(object obj, EventArgs e)
         {
             if(num1 == null) {if(textBoxResult.Text.Length>0) num1 = textBoxResult.Text; else return;}
@@ -131,13 +128,13 @@ namespace WindowsFormsApp2
             isNum2 = true;
             currentOperation = ((Button)obj).Text;
 
-            ChoiceOperation(currentOperation);
+            SetResult(currentOperation);
              
         }
         //button "="
         private void button3_Click(object sender, EventArgs e)
         {
-            ChoiceOperation(currentOperation);
+            SetResult(currentOperation);
             isNum2 = false;
             num1 = null;
             num2 = null;
@@ -161,6 +158,34 @@ namespace WindowsFormsApp2
             if(textBoxResult.Text.Length <= 0) { return;}
             textBoxResult.Text = textBoxResult.Text.Substring(0, textBoxResult.Text.Length-1);
             SetNum(textBoxResult.Text);
+        }
+
+        private void button24_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+
+        private bool isMove = false;
+        private Point currentPosition = new Point(0,0);
+        private void panel1_MouseDown(object sender, MouseEventArgs e)
+        {
+            isMove = true;
+            currentPosition = new Point(e.X,e.Y);
+        }
+
+        private void panel1_MouseUp(object sender, MouseEventArgs e)
+        {
+            isMove = false;
+        }
+
+        private void panel1_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (!isMove) { return;}
+            Point tmp = new Point(this.Location.X,this.Location.Y);
+            tmp.X+=e.X-currentPosition.X;
+            tmp.Y+=e.Y-currentPosition.Y;
+            this.Location = tmp;
+
         }
     }
 }
