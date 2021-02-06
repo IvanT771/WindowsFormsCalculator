@@ -109,6 +109,7 @@ namespace WindowsFormsApp2
                 case "-": { result = MathOperation.Sub(num1, num2); break; }
                 case "x": { result = MathOperation.Mul(num1, num2); break; }
                 case "÷": { result = MathOperation.Dev(num1, num2); break; }
+                case "%": { result = MathOperation.Proc(num1, num2); break; }
                 case "√": { result = MathOperation.Sqr(num1); isNum2 = false; break; }
                 case "x²": { result = MathOperation.Pow(num1); isNum2 = false; break; }
                 case "1/x": { result = MathOperation.OneDev(num1); isNum2 = false; break; }

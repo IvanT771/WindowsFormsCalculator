@@ -260,6 +260,7 @@ namespace WindowsFormsApp2
             this.button8.Text = "%";
             this.button8.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
             this.button8.UseVisualStyleBackColor = false;
+            this.button8.Click += new System.EventHandler(this.buttonOperationClick);
             // 
             // button9
             // 

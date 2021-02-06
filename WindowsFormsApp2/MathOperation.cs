@@ -40,7 +40,14 @@ namespace WindowsFormsApp2
             if (!Double.TryParse(num1, out a) || !Double.TryParse(num2, out b)) { return null; }
             return (a / b).ToString();
         }
+        public static string Proc(string num1, string num2)
+        {
+            double a;
+            double b;
 
+            if (!Double.TryParse(num1, out a) || !Double.TryParse(num2, out b)) { return null; }
+            return (a * b/100).ToString();
+        }
         public static string Sqr(string num1)
         {
            double a;
@@ -56,6 +63,7 @@ namespace WindowsFormsApp2
             return Math.Pow(a,2).ToString();
 
         }
+
 
         public static string OneDev(string num1)
         {
